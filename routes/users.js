@@ -148,7 +148,7 @@ router.post('/submit', (req, res) => {
     //     res.redirect('/users/admin_login');
     // }
     req.logout();
-    req.flash('success_msg', 'You have successfully filled the choices');
+    req.flash('success_msg', 'You have filled the choices successfully');
     res.redirect('/users/student_login');
 });
 

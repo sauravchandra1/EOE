@@ -1,6 +1,8 @@
 var express = require('express');
 var router = express.Router();
 var { ensureAuthenticated } = require('../config/auth');
+
+var Subject = require('../models/Subject');
 /* GET home page. */
 router.get('/', (req, res) => res.render('welcome'));
 //Dashboard
@@ -15,11 +17,20 @@ router.get('/dashboard', ensureAuthenticated, (req, res) => {
         req.logout();
         res.redirect('/')
     } else {
-        res.render('dashboard', {
-            name: req.user.name,
-            student_id: req.user.student_id,
-            cgpi: req.user.cgpi
-        });
+        async function showDashboard () {
+            var subjects = await Subject.find({ branch: 'cse' }).exec();
+            if (subjects.length === 0) {
+                console.log('Subjects not found');
+            } else {
+                res.render('dashboard', {
+                    subjects,
+                    name: req.user.name,
+                    student_id: req.user.student_id,
+                    cgpi: req.user.cgpi
+                });
+            }
+        }
+        showDashboard();
     }
 });
 
