@@ -13,6 +13,10 @@ var UserSchema = new mongoose.Schema({
         type: String,
         required: true
     },
+    branch: {
+        type: String,
+        required: true
+    },
     cgpi: {
         type: Number,
         require: true
@@ -20,6 +24,10 @@ var UserSchema = new mongoose.Schema({
     filled: {
         type: Boolean,
         require: true
+    },
+    alloted: {
+        type: String,
+        require: false
     }
 });
 

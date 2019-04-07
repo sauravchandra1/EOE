@@ -145,6 +145,7 @@ router.post('/submit', (req, res) => {
                 choices.push(formData[sub]);
             }
             var student_id = user.student_id;
+            var cgpi = user.cgpi;
             User.findOneAndUpdate({ student_id: student_id }, { $set:{ filled: true }}, {new: true}, (err, doc) => {
                 if (err) {
                     console.log("Something wrong when updating data!");
@@ -154,7 +155,8 @@ router.post('/submit', (req, res) => {
             var newChoice = new Choice({
                 subject_name,
                 student_id,
-                choices
+                choices,
+                cgpi
             });
             console.log(newChoice);
             newChoice.save()

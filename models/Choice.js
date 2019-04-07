@@ -12,7 +12,11 @@ var ChoiceSchema = new mongoose.Schema({
     choices: [{
         type: String,
         required: true
-    }]
+    }],
+    cgpi: {
+        type: Number,
+        require: true
+    }
 });
 
 var Choice = mongoose.model('Choice', ChoiceSchema);
