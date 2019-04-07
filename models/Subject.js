@@ -3,11 +3,11 @@ var mongoose = require('mongoose');
 var SubjectSchema = new mongoose.Schema({
     subject_name: {
         type: String,
-        required: true,
+        required: true
     },
     branch: {
         type: String,
-        required: true,
+        required: true
     }
 });
 

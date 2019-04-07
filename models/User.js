@@ -3,18 +3,22 @@ var mongoose = require('mongoose');
 var UserSchema = new mongoose.Schema({
     name: {
         type: String,
-        required: true,
+        required: true
     },
     student_id: {
         type: Number,
-        required: true,
+        required: true
     },
     password: {
         type: String,
-        required: true,
+        required: true
     },
     cgpi: {
         type: Number,
+        require: true
+    },
+    filled: {
+        type: Boolean,
         require: true
     }
 });

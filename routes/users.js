@@ -7,6 +7,8 @@ const Confirm = require('prompt-confirm');
 //User model
 var User = require('../models/User');
 var Admin = require('../models/Admin');
+var Choice = require('../models/Choice');
+var Subject = require('../models/Subject');
 
 /* GET users listing. */
 //Student login
@@ -63,7 +65,6 @@ router.post('/register', (req, res) => {
                         student_id,
                         password
                     });
-
                     newUser.save()
                         .then(user => {
                             req.flash('success_msg', 'You are now registered and can log in');
@@ -89,7 +90,7 @@ router.post('/student_login', (req, res, next) => {
 //Student Logout Handle
 router.get('/logout', (req, res) => {
    req.logout();
-   req.flash('success_msg', 'You are logged out');
+   req.flash('success_msg', 'You are logged out successfully');
    res.redirect('/users/student_login');
 });
 
@@ -129,24 +130,41 @@ router.get('/admin_logout', (req, res) => {
 
 //Submit
 router.post('/submit', (req, res) => {
-    // var options = Object.keys(req.body);
-    // var values = Object.values(req.body);
-    // var duplicates = values.filter(i =>
-    //     values.filter(ii =>
-    //         ii === i).length > 1);
-    // if (duplicates.length >= 1) {
-    //     let errors = [];
-    //     errors.push({ msg: 'Subjects cannot have same priority'});
-    //     res.render('dashboard', {
-    //         errors,
-    //         name: req.user.name,
-    //         student_id: req.user.student_id,
-    //         cgpi: req.user.cgpi,
-    //     });
-    // } else {
-    //     req.flash('success_msg', 'You have successfully filled the choices');
-    //     res.redirect('/users/admin_login');
-    // }
+    async function saveChoice(user) {
+        var subjects = await Subject.find({ branch: 'cse' }).exec();
+        if (subjects.length === 0) {
+            console.log('Subjects not found');
+        } else {
+            var subject_name = [];
+            var choices = [];
+            var sub;
+            var formData = req.body;
+            for (var i = 0; i < subjects.length; i++) {
+                sub = subjects[i].subject_name;
+                subject_name.push(sub);
+                choices.push(formData[sub]);
+            }
+            var student_id = user.student_id;
+            User.findOneAndUpdate({ student_id: student_id }, { $set:{ filled: true }}, {new: true}, (err, doc) => {
+                if (err) {
+                    console.log("Something wrong when updating data!");
+                }
+                console.log(doc);
+            });
+            var newChoice = new Choice({
+                subject_name,
+                student_id,
+                choices
+            });
+            console.log(newChoice);
+            newChoice.save()
+                .then(choice => {
+                    console.log(choice);
+                })
+                .catch(err => console.log(err));
+        }
+    }
+    saveChoice(req.session.passport.user);
     req.logout();
     req.flash('success_msg', 'You have filled the choices successfully');
     res.redirect('/users/student_login');

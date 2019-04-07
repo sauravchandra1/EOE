@@ -29,6 +29,7 @@ var db = require('./config/keys').MongoURI;
 mongoose.connect(db, {useNewUrlParser: true})
     .then(() => console.log('MongoDB Connected...'))
     .catch(err => console.log(err));
+mongoose.set('useFindAndModify', false);
 
 //EJS
 app.use(expressLayouts);

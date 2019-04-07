@@ -18,68 +18,97 @@
         </div>
     </div>
 </nav>
-<% include ./partials/messages %>
-<div class="container-fluid mt-3">
-    <form id="Form" action="/users/submit" method="POST" onsubmit="return checkValid(<%= subjects.length %>)"></form>
+<% if (filled) { %>
+    <div class="card text-white bg-info mb-3 text-center container-fluid">
+        <div class="card-header">You have filled the choices</div>
+    </div>
     <div class="table-responsive">
         <table class="table table-hover">
             <thead>
             <tr>
-                <th scope="col" width="13%" class="text-center">Subject Name</th>
-                <th scope="col" width="7%" class="text-center">Branch</th>
-                <% colWidth = 80 / subjects.length%>
+                <th scope="col" width="10%" class="text-center">Branch</th>
+                <% colWidth = 90 / subjects.length%>
                 <% for (var i = 1; i <= subjects.length; i++) { %>
                     <th scope="col" width="<%= colWidth %>%" class="text-center">Choice <%= i %></th>
                 <% } %>
             </tr>
             </thead>
             <tbody>
-            <% for (var i = 1; i <= subjects.length; i++) { %>
-                <tr class="table-info text-center">
-                    <th scope="row"><%= subjects[i - 1].subject_name %></th>
-                    <td><%= subjects[i - 1].branch %></td>
-                    <% for (var j = 1; j <= subjects.length; j++) { %>
-                        <td scope="col" width="<%= colWidth %>%">
-                            <label class="radio-inline">
-                                <input form="Form" id="<%= i %><%= j%>" type="radio" name="option<%= i %>" value="<%= j%>"
-                                <% if (i === j) { %>
-                                       checked
-                                        <% }%> >
-                            </label>
-                        </td>
-                    <% } %>
-                </tr>
-            <% } %>
+            <tr class="table-info text-center">
+                <th scope="row"><%= subjects[0].branch %></th>
+                <% for (var j = 1; j <= choice.subject_name.length; j++) { %>
+                    <td scope="col" width="<%= colWidth %>%">
+                        <% var index = parseInt(choice.choices[j - 1]); %>
+                        <%= choice.subject_name[index - 1] %>
+                    </td>
+                <% } %>
+            </tr>
             </tbody>
         </table>
     </div>
-    <button class="btn btn-warning btn-lg btn-block"  type="submit" form="Form">Click Here</button>
-</div>
-<script>
-    function checkValid(len) {
-        console.log(len);
-        var flag = 0;
-        for (var i = 1; i <= len ; i++) {
-            var choices = [];
-            var x;
-            for (var j = 1; j <= len ; j++) {
-                var id = j * 10 + i;
-                var newId = id.toString();
-                x = document.getElementById(newId).checked;
-                if (x) {
-                    choices.push(newId);
+<% } else { %>
+    <div class="container-fluid mt-3">
+        <form id="Form" action="/users/submit" method="POST" onsubmit="return checkValid(<%= subjects.length %>)"></form>
+        <div class="table-responsive">
+            <table class="table table-hover">
+                <thead>
+                <tr>
+                    <th scope="col" width="13%" class="text-center">Subject Name</th>
+                    <th scope="col" width="7%" class="text-center">Branch</th>
+                    <% colWidth = 80 / subjects.length%>
+                    <% for (var i = 1; i <= subjects.length; i++) { %>
+                        <th scope="col" width="<%= colWidth %>%" class="text-center">Choice <%= i %></th>
+                    <% } %>
+                </tr>
+                </thead>
+                <tbody>
+                <% for (var i = 1; i <= subjects.length; i++) { %>
+                    <tr class="table-info text-center">
+                        <th scope="row"><%= subjects[i - 1].subject_name %></th>
+                        <td><%= subjects[i - 1].branch %></td>
+                        <% for (var j = 1; j <= subjects.length; j++) { %>
+                            <td scope="col" width="<%= colWidth %>%">
+                                <label class="radio-inline">
+                                    <input form="Form" id="<%= i %><%= j%>" type="radio" name="<%= subjects[i - 1].subject_name %>" value="<%= j%>"
+                                    <% if (i === j) { %>
+                                           checked
+                                            <% }%> >
+                                </label>
+                            </td>
+                        <% } %>
+                    </tr>
+                <% } %>
+                </tbody>
+            </table>
+        </div>
+        <button class="btn btn-warning btn-lg btn-block"  type="submit" form="Form">Click Here</button>
+    </div>
+    <script>
+        function checkValid(len) {
+            console.log(len);
+            var flag = 0;
+            for (var i = 1; i <= len ; i++) {
+                var choices = [];
+                var x;
+                for (var j = 1; j <= len ; j++) {
+                    var id = j * 10 + i;
+                    var newId = id.toString();
+                    x = document.getElementById(newId).checked;
+                    if (x) {
+                        choices.push(newId);
+                    }
+                }
+                if (choices.length > 1) {
+                    flag = 1;
+                    break;
                 }
             }
-            if (choices.length > 1) {
-                flag = 1;
-                break;
+            if (flag) {
+                alert('Multiple choices are not allowed');
+                return false;
+            } else {
+                return confirm('You are not able to change the choices once you submit. Are you sure?');
             }
         }
-        if (flag) {
-            alert('Multiple choices are not allowed');
-            return false;
-        } else {
-            return confirm('You are not able to change the choices once you submit. Are you sure?');
-        }
-    }
-</script>
+    </script>
+<% } %>

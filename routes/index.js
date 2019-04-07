@@ -3,6 +3,7 @@ var router = express.Router();
 var { ensureAuthenticated } = require('../config/auth');
 
 var Subject = require('../models/Subject');
+var Choice = require('../models/Choice');
 /* GET home page. */
 router.get('/', (req, res) => res.render('welcome'));
 //Dashboard
@@ -22,12 +23,32 @@ router.get('/dashboard', ensureAuthenticated, (req, res) => {
             if (subjects.length === 0) {
                 console.log('Subjects not found');
             } else {
-                res.render('dashboard', {
-                    subjects,
-                    name: req.user.name,
-                    student_id: req.user.student_id,
-                    cgpi: req.user.cgpi
-                });
+                var { name, student_id, cgpi, filled } = req.session.passport.user;
+                if (filled) {
+                    Choice.findOne({ student_id: student_id })
+                        .then(choice => {
+                            if (choice) {
+                                res.render('dashboard', {
+                                    subjects,
+                                    name,
+                                    student_id,
+                                    cgpi,
+                                    filled,
+                                    choice
+                                });
+                            } else {
+                                console.log('You have not filled the choices')
+                            }
+                        });
+                    } else {
+                    res.render('dashboard', {
+                        subjects,
+                        name,
+                        student_id,
+                        cgpi,
+                        filled
+                    });
+                }
             }
         }
         showDashboard();
