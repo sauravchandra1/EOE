@@ -1,3 +1,78 @@
-<h1 class="mt-4">Dashboard</h1>
-<p class="lead mb-3">Welcome <%= name %></p>
-<a href="/users/logout" class="btn btn-secondary">Logout</a>
+<nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+    <a class="navbar-brand text-dark" href="/dashboard">Welcome <h2 class="text-white"><%= name %></h2></a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarColor01" aria-controls="navbarColor01" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="container-fluid col-md-6">
+        <div class="card text-white bg-danger mb-3" style="max-width: 20rem;">
+            <div class="card-header"><strong>Your Roll Number</strong></div>
+            <div class="card-body">
+                <h4 class="card-title text-center"><%= student_id %></h4>
+            </div>
+        </div>
+        <div class="card text-white bg-success mb-3" style="max-width: 20rem;">
+            <div class="card-header"><strong>Your CGPI</strong></div>
+            <div class="card-body">
+                <h4 class="card-title text-center"><%= cgpi %></h4>
+            </div>
+        </div>
+        <div class="card text-white mb-3" style="max-width: 20rem;">
+            <a href="/users/logout" class="btn btn-info btn-lg btn-block">Logout</a>
+        </div>
+    </div>
+</nav>
+<% include ./partials/messages %>
+<div class="container-fluid">
+    <form id="Form" action="/users/submit" method="POST" onsubmit="return checkValid()"></form>
+    <% for (var i = 1; i <= 5; i++) { %>
+        <div class="row">
+            <div class="col">
+                1
+            </div>
+            <div class="col-6">
+                <% for (var j = 1; j <= 5; j++) { %>
+                    <label class="radio-inline">
+                        <input form="Form" id="<%= i %><%= j%>" type="radio" name="option<%= i %>" id="option<%= i%>" value="<%= j%>"
+                        <% if (i === j) { %>
+                            checked
+                                <% }%> > Choice <%= i %><%= j%>
+                    </label>
+                <% } %>
+            </div>
+            <div class="col">
+                3 of 3
+            </div>
+        </div>
+    <% } %>
+    <button class="btn btn-warning btn-lg btn-block"  type="submit" form="Form">Click Here</button>
+</div>
+
+<script>
+    //onclick="return (confirm('You cannot change choices once you submit. Are you sure?'))"
+    function checkValid() {
+        console.log('chl rha hai');
+        var flag = 0;
+        for (var i = 1; i <= 5; i++) {
+            var choices = [];
+            var x;
+            for (var j = 1; j <= 5; j++) {
+                var id = j * 10 + i;
+                var newId = id.toString();
+                x = document.getElementById(newId).checked;
+                if (x) {
+                    choices.push(newId);
+                }
+            }
+            if (choices.length > 1) {
+                flag = 1;
+                break;
+            }
+        }
+        if (flag) {
+            alert('Subjects cannot have same priority');
+            return false;
+        } else {
+            return confirm('You cannot change choices once you submit. Are you sure?');
+        }
+    }
+</script>

@@ -1,3 +1,15 @@
-<h1 class="mt-4">Dashboard</h1>
-<p class="lead mb-3">Welcome Admin <%= name %></p>
-<a href="/users/admin_logout" class="btn btn-secondary">Logout</a>
+<nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+    <a class="navbar-brand text-dark" href="/dashboard">Welcome <h2 class="text-white"><%= name %></h2></a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarColor01" aria-controls="navbarColor01" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="container-fluid col-md-6">
+
+        <div class="card text-white mb-3" style="max-width: 20rem;">
+            <a href="/users/admin_logout" class="btn btn-info btn-lg btn-block">Logout</a>
+        </div>
+
+    </div>
+
+</nav>

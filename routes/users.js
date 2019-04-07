@@ -2,6 +2,8 @@ var express = require('express');
 var router = express.Router();
 var bcrypt = require('bcryptjs');
 var passport = require('passport');
+const Confirm = require('prompt-confirm');
+
 //User model
 var User = require('../models/User');
 var Admin = require('../models/Admin');
@@ -124,5 +126,31 @@ router.get('/admin_logout', (req, res) => {
     req.flash('success_msg', 'You are logged out');
     res.redirect('/users/admin_login');
 });
+
+//Submit
+router.post('/submit', (req, res) => {
+    // var options = Object.keys(req.body);
+    // var values = Object.values(req.body);
+    // var duplicates = values.filter(i =>
+    //     values.filter(ii =>
+    //         ii === i).length > 1);
+    // if (duplicates.length >= 1) {
+    //     let errors = [];
+    //     errors.push({ msg: 'Subjects cannot have same priority'});
+    //     res.render('dashboard', {
+    //         errors,
+    //         name: req.user.name,
+    //         student_id: req.user.student_id,
+    //         cgpi: req.user.cgpi,
+    //     });
+    // } else {
+    //     req.flash('success_msg', 'You have successfully filled the choices');
+    //     res.redirect('/users/admin_login');
+    // }
+    req.logout();
+    req.flash('success_msg', 'You have successfully filled the choices');
+    res.redirect('/users/student_login');
+});
+
 
 module.exports = router;

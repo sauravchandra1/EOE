@@ -1,1 +1,0 @@
-# Elect the Open Elective
