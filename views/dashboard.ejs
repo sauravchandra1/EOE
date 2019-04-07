@@ -2,13 +2,13 @@
     <a class="navbar-brand text-dark" href="/dashboard">Welcome <h2 class="text-white"><%= name %></h2></a>
     <div class="container-fluid col-md-6">
         <div class="card text-white bg-danger mb-3" style="max-width: 20rem;">
-            <div class="card-header"><strong>Your Roll Number</strong></div>
+            <div class="card-header"><strong>Roll Number</strong></div>
             <div class="card-body">
                 <h4 class="card-title text-center"><%= student_id %></h4>
             </div>
         </div>
         <div class="card text-white bg-success mb-3" style="max-width: 20rem;">
-            <div class="card-header"><strong>Your CGPI</strong></div>
+            <div class="card-header"><strong>CGPI</strong></div>
             <div class="card-body">
                 <h4 class="card-title text-center"><%= cgpi %></h4>
             </div>
@@ -21,36 +21,38 @@
 <% include ./partials/messages %>
 <div class="container-fluid mt-3">
     <form id="Form" action="/users/submit" method="POST" onsubmit="return checkValid(<%= subjects.length %>)"></form>
-    <table class="table table-hover">
-        <thead>
-        <tr>
-            <th scope="col" width="13%" class="text-center">Subject Name</th>
-            <th scope="col" width="7%" class="text-center">Branch</th>
-            <% colWidth = 80 / subjects.length%>
-            <% for (var i = 1; i <= subjects.length; i++) { %>
-                <th scope="col" width="<%= colWidth %>%" class="text-center">Choice <%= i %></th>
-            <% } %>
-        </tr>
-        </thead>
-        <tbody>
-        <% for (var i = 1; i <= subjects.length; i++) { %>
-            <tr class="table-info text-center">
-                <th scope="row"><%= subjects[i - 1].subject_name %></th>
-                <td><%= subjects[i - 1].branch %></td>
-                <% for (var j = 1; j <= subjects.length; j++) { %>
-                    <td scope="col" width="<%= colWidth %>%">
-                        <label class="radio-inline">
-                            <input form="Form" id="<%= i %><%= j%>" type="radio" name="option<%= i %>" value="<%= j%>"
-                                    <% if (i === j) { %>
-                                   checked
-                                    <% }%> >
-                        </label>
-                    </td>
+    <div class="table-responsive">
+        <table class="table table-hover">
+            <thead>
+            <tr>
+                <th scope="col" width="13%" class="text-center">Subject Name</th>
+                <th scope="col" width="7%" class="text-center">Branch</th>
+                <% colWidth = 80 / subjects.length%>
+                <% for (var i = 1; i <= subjects.length; i++) { %>
+                    <th scope="col" width="<%= colWidth %>%" class="text-center">Choice <%= i %></th>
                 <% } %>
             </tr>
-        <% } %>
-        </tbody>
-    </table>
+            </thead>
+            <tbody>
+            <% for (var i = 1; i <= subjects.length; i++) { %>
+                <tr class="table-info text-center">
+                    <th scope="row"><%= subjects[i - 1].subject_name %></th>
+                    <td><%= subjects[i - 1].branch %></td>
+                    <% for (var j = 1; j <= subjects.length; j++) { %>
+                        <td scope="col" width="<%= colWidth %>%">
+                            <label class="radio-inline">
+                                <input form="Form" id="<%= i %><%= j%>" type="radio" name="option<%= i %>" value="<%= j%>"
+                                <% if (i === j) { %>
+                                       checked
+                                        <% }%> >
+                            </label>
+                        </td>
+                    <% } %>
+                </tr>
+            <% } %>
+            </tbody>
+        </table>
+    </div>
     <button class="btn btn-warning btn-lg btn-block"  type="submit" form="Form">Click Here</button>
 </div>
 <script>
