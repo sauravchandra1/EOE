@@ -4,14 +4,10 @@ var { ensureAuthenticated } = require('../config/auth');
 
 var Subject = require('../models/Subject');
 var Choice = require('../models/Choice');
+
 /* GET home page. */
 router.get('/', (req, res) => res.render('welcome'));
-//Dashboard
-// router.get('/dashboard', (req, res) => res.render('dashboard', {
-//     name: 'Saurav',
-//     student_id: 166666,
-//     cgpi: 7.4
-// }));
+
 router.get('/dashboard', ensureAuthenticated, (req, res) => {
     var Userr = req.session.passport.user;
     if (Userr.type === 1) {
