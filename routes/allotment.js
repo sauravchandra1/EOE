@@ -42,7 +42,7 @@ router.get('/', ensureAuthenticated, (req, res) => {
                     }
                 }
             });
-        res.send('Chl rha');
+        res.send('Allotment Done');
     } else {
         req.logout();
         res.redirect('/')

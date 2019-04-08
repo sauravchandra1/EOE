@@ -1,0 +1,23 @@
+<nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+    <p class="navbar-brand text-dark" >Welcome <h2 class="text-white"><%= name %></h2></p>
+    <div class="container-fluid col-md-6">
+        <div class="card text-white bg-danger mb-3" style="max-width: 20rem;">
+            <div class="card-header"><strong>Roll Number</strong></div>
+            <div class="card-body">
+                <h4 class="card-title text-center"><%= student_id %></h4>
+            </div>
+        </div>
+        <div class="card text-white bg-success mb-3" style="max-width: 20rem;">
+            <div class="card-header"><strong>CGPI</strong></div>
+            <div class="card-body">
+                <h4 class="card-title text-center"><%= cgpi %></h4>
+            </div>
+        </div>
+        <div class="card text-white mb-3" style="max-width: 20rem;">
+            <a href="/users/logout" class="btn btn-info btn-lg btn-block">Logout</a>
+        </div>
+    </div>
+</nav>
+<div class="card text-white bg-info mb-3 text-center container-fluid">
+    <div class="card-header">You have got <strong><%= alloted %></strong></div>
+</div>
