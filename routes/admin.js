@@ -1,11 +1,31 @@
 var express = require('express');
 var router = express.Router();
+var passport = require('passport');
 var { ensureAuthenticated } = require('../config/auth');
 //Mongoose
 var Choice = require('../models/Choice');
 var User = require('../models/User');
 
-router.get('/', ensureAuthenticated, (req, res) => {
+//Admin login
+router.get('/admin_login', (req, res) => res.render('admin_login'));
+
+//Admin Login Handle
+router.post('/admin_login', (req, res, next) => {
+    passport.authenticate('admin_login',{
+        successRedirect: '/admin_dashboard',
+        failureRedirect: '/admin/admin_login',
+        failureFlash: true
+    }) (req, res, next);
+});
+
+//Admin Logout Handle
+router.get('/admin_logout', (req, res) => {
+    req.logout();
+    req.flash('success_msg', 'You are logged out');
+    res.redirect('/admin/admin_login');
+});
+
+router.get('/allotment', ensureAuthenticated, (req, res) => {
     var Admins = req.session.passport.user;
     if (Admins.type === 1) {
         Choice.find()
@@ -42,7 +62,9 @@ router.get('/', ensureAuthenticated, (req, res) => {
                     }
                 }
             });
-        res.send('Allotment Done');
+        req.logout();
+        req.flash('success_msg', 'Allotment done successfully');
+        res.redirect('/admin/admin_login');
     } else {
         req.logout();
         res.redirect('/')
