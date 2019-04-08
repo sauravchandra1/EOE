@@ -27,7 +27,7 @@
             <thead>
             <tr>
                 <th scope="col" width="10%" class="text-center">Branch</th>
-                <% colWidth = 90 / subjects.length%>
+                <% colWidth = 90 / subjects.length %>
                 <% for (var i = 1; i <= subjects.length; i++) { %>
                     <th scope="col" width="<%= colWidth %>%" class="text-center">Choice <%= i %></th>
                 <% } %>
@@ -48,14 +48,15 @@
     </div>
 <% } else { %>
     <div class="container-fluid mt-3">
-        <form id="Form" action="/users/submit" method="POST" onsubmit="return checkValid(<%= subjects.length %>)"></form>
+        <form id="Form" action="/users/submit" method="POST"
+              onsubmit="return checkValid(<%= subjects.length %>)"></form>
         <div class="table-responsive">
             <table class="table table-hover">
                 <thead>
                 <tr>
                     <th scope="col" width="13%" class="text-center">Subject Name</th>
                     <th scope="col" width="7%" class="text-center">Branch</th>
-                    <% colWidth = 80 / subjects.length%>
+                    <% colWidth = 80 / subjects.length %>
                     <% for (var i = 1; i <= subjects.length; i++) { %>
                         <th scope="col" width="<%= colWidth %>%" class="text-center">Choice <%= i %></th>
                     <% } %>
@@ -69,10 +70,12 @@
                         <% for (var j = 1; j <= subjects.length; j++) { %>
                             <td scope="col" width="<%= colWidth %>%">
                                 <label class="radio-inline">
-                                    <input form="Form" id="<%= i %><%= j%>" type="radio" name="<%= subjects[i - 1].subject_name %>" value="<%= j%>"
+                                    <input form="Form" id="<%= i %><%= j %>" type="radio"
+                                           name="<%= subjects[i - 1].subject_name %>" value="<%= j %>"
                                     <% if (i === j) { %>
                                            checked
-                                            <% }%> >
+                                            <% } %>
+                                    >
                                 </label>
                             </td>
                         <% } %>
@@ -81,16 +84,16 @@
                 </tbody>
             </table>
         </div>
-        <button class="btn btn-warning btn-lg btn-block"  type="submit" form="Form">Click Here</button>
+        <button class="btn btn-warning btn-lg btn-block" type="submit" form="Form">Click Here</button>
     </div>
     <script>
         function checkValid(len) {
             console.log(len);
             var flag = 0;
-            for (var i = 1; i <= len ; i++) {
+            for (var i = 1; i <= len; i++) {
                 var choices = [];
                 var x;
-                for (var j = 1; j <= len ; j++) {
+                for (var j = 1; j <= len; j++) {
                     var id = j * 10 + i;
                     var newId = id.toString();
                     x = document.getElementById(newId).checked;

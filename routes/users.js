@@ -14,18 +14,18 @@ router.get('/student_login', (req, res) => res.render('student_login'));
 
 //Student Login Handle
 router.post('/student_login', (req, res, next) => {
-   passport.authenticate('student_login',{
-       successRedirect: '/dashboard',
-       failureRedirect: '/users/student_login',
-       failureFlash: true
-   }) (req, res, next);
+    passport.authenticate('student_login', {
+        successRedirect: '/dashboard',
+        failureRedirect: '/users/student_login',
+        failureFlash: true
+    })(req, res, next);
 });
 
 //Student Logout Handle
 router.get('/logout', (req, res) => {
-   req.logout();
-   req.flash('success_msg', 'You are logged out successfully');
-   res.redirect('/users/student_login');
+    req.logout();
+    req.flash('success_msg', 'You are logged out successfully');
+    res.redirect('/users/student_login');
 });
 
 //Admin Register
@@ -49,7 +49,7 @@ router.get('/logout', (req, res) => {
 //Submit
 router.post('/submit', (req, res) => {
     async function saveChoice(user) {
-        var subjects = await Subject.find({ branch: 'cse' }).exec();
+        var subjects = await Subject.find({branch: 'cse'}).exec();
         if (subjects.length === 0) {
             console.log('Subjects not found');
         } else {
@@ -64,10 +64,11 @@ router.post('/submit', (req, res) => {
             }
             var student_id = user.student_id;
             var cgpi = user.cgpi;
-            User.findOneAndUpdate({ student_id: student_id }, { $set:{ filled: true }}, {new: true}, (err, doc) => {
+            User.findOneAndUpdate({student_id: student_id}, {$set: {filled: true}}, {new: true}, (err, doc) => {
                 if (err) {
                     console.log("Something wrong when updating data!");
                 }
+                console.log('filled set to true');
                 console.log(doc);
             });
             var newChoice = new Choice({
@@ -76,14 +77,15 @@ router.post('/submit', (req, res) => {
                 choices,
                 cgpi
             });
-            console.log(newChoice);
             newChoice.save()
                 .then(choice => {
+                    console.log('Choices filled successfully');
                     console.log(choice);
                 })
                 .catch(err => console.log(err));
         }
     }
+
     saveChoice(req.session.passport.user);
     req.logout();
     req.flash('success_msg', 'You have filled the choices successfully');

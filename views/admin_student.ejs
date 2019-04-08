@@ -1,0 +1,47 @@
+<nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+    <a class="navbar-brand text-dark" href="/admin_dashboard">Welcome <h2 class="text-white"><%= name %></h2></a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarColor01"
+            aria-controls="navbarColor01" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="container-fluid col-md-6">
+        <div class="card text-white mb-3" style="max-width: 20rem;">
+            <a href="/admin/admin_logout" class="btn btn-info btn-lg btn-block">Logout</a>
+        </div>
+    </div>
+</nav>
+<table class="table table-hover">
+    <thead>
+    <tr>
+        <th scope="col">Student ID</th>
+        <th scope="col">Name</th>
+        <th scope="col">CGPI</th>
+        <th scope="col">Branch</th>
+        <th scope="col">Choice Filled</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr class="table-success">
+        <th scope="row"><%= user.student_id %></th>
+        <td><%= user.name %></td>
+        <td><%= user.cgpi %></td>
+        <td><%= user.branch.toUpperCase() %></td>
+        <% if (user.filled) { %>
+            <td>Yes</td>
+        <% } else { %>
+            <td>No</td>
+        <% } %>
+    </tr>
+    </tbody>
+</table>
+<% if (user.filled) { %>
+    <form action="/admin/choice_unlock" method="POST" id="Form" class="form-inline my-2 my-lg-0"
+          onsubmit="return confirm('Are you sure?')"></form>
+    <input form="Form" type="hidden" name="student_id" value="<%= user.student_id %>" class="form-control mr-sm-2"
+           type="text">
+    <button form="Form" class="btn btn-info my-2 my-sm-0" type="submit">Unlock Choice</button>
+<% } %>
+
+
+
+
