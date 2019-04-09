@@ -1,25 +1,21 @@
 <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
-    <a class="navbar-brand text-dark" href="/dashboard">Welcome <h2 class="text-white"><%= name %></h2></a>
+    <a class="navbar-brand text-dark" href="/dashboard"><h2 class="text-white">Hello, <br> <%= name %></h2></a>
     <div class="container-fluid col-md-6">
         <div class="card text-white bg-danger mb-3" style="max-width: 20rem;">
-            <div class="card-header"><strong>Roll Number</strong></div>
             <div class="card-body">
-                <h4 class="card-title text-center"><%= student_id %></h4>
+                <h4 class="card-title text-center">Roll Number: <%= student_id %></h4>
             </div>
         </div>
         <div class="card text-white bg-success mb-3" style="max-width: 20rem;">
-            <div class="card-header"><strong>CGPI</strong></div>
             <div class="card-body">
-                <h4 class="card-title text-center"><%= cgpi %></h4>
+                <h4 class="card-title text-center">CGPI: <%= cgpi %></h4>
             </div>
         </div>
-        <div class="card text-white mb-3" style="max-width: 20rem;">
-            <a href="/users/logout" class="btn btn-info btn-lg btn-block">Logout</a>
-        </div>
+        <a href="/users/logout" class="btn btn-info">Logout</a>
     </div>
 </nav>
 <% if (filled) { %>
-    <div class="card text-white bg-info mb-3 text-center container-fluid">
+    <div class=" card text-white bg-info mb-3 text-center container-fluid">
         <div class="card-header">You have filled the choices</div>
     </div>
     <div class="table-responsive">
@@ -35,11 +31,11 @@
             </thead>
             <tbody>
             <tr class="table-info text-center">
-                <th scope="row"><%= subjects[0].branch %></th>
+                <th scope="row"><%= subjects[0].branch.toUpperCase() %></th>
                 <% for (var j = 1; j <= choice.subject_name.length; j++) { %>
                     <td scope="col" width="<%= colWidth %>%">
                         <% var index = parseInt(choice.choices[j - 1]); %>
-                        <%= choice.subject_name[index - 1] %>
+                        <%= choice.subject_name[index - 1].toUpperCase() %>
                     </td>
                 <% } %>
             </tr>
@@ -65,8 +61,8 @@
                 <tbody>
                 <% for (var i = 1; i <= subjects.length; i++) { %>
                     <tr class="table-info text-center">
-                        <th scope="row"><%= subjects[i - 1].subject_name %></th>
-                        <td><%= subjects[i - 1].branch %></td>
+                        <th scope="row"><%= subjects[i - 1].subject_name.toUpperCase() %></th>
+                        <td><%= subjects[i - 1].branch.toUpperCase() %></td>
                         <% for (var j = 1; j <= subjects.length; j++) { %>
                             <td scope="col" width="<%= colWidth %>%">
                                 <label class="radio-inline">
@@ -84,7 +80,7 @@
                 </tbody>
             </table>
         </div>
-        <button class="btn btn-warning btn-lg btn-block" type="submit" form="Form">Click Here</button>
+        <button class="btn btn-warning btn-block" type="submit" form="Form">Submit</button>
     </div>
     <script>
         function checkValid(len) {
