@@ -1,11 +1,21 @@
-<nav class="navbar navbar-expand-lg navbar-dark bg-primary">
-    <a class="navbar-brand text-dark" href="/admin_dashboard"><h2 class="text-white">Hello Admin, <%= name %></h2></a>
-    <div class="container-fluid col-md-6">
-            <a href="/admin/admin_logout" class="btn btn-info ">Logout</a>
+<nav class="bg-dark navbar-dark">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-4 mt-2">
+                <a class="navbar-brand" href="/admin_dashboard"><h5 class="text-white">Hello Admin, <br> <strong><%= name %></strong></h5></a>
+            </div>
+            <div class="col-md-4 mt-2 text-center">
+                <form action="/admin/student" method="POST" id="Form" class="form-inline"
+                ></form>
+                <input form="Form" name="student_id" class="form-control " type="text" placeholder="Enter Student ID">
+                <button form="Form" class="btn btn-primary mt-1" type="submit">Search</button>
+            </div>
+            <div class="col-md-4 mt-2 mb-2 text-center">
+                <a href="/admin/admin_logout" class="btn btn-info ">Logout</a>
+            </div>
+        </div>
     </div>
-    <form action="/admin/student" method="POST" id="Form" class="form-inline my-2 my-lg-0"
-         ></form>
-    <input form="Form" name="student_id" class="form-control mr-sm-2" type="text" placeholder="Enter Student ID">
-    <button form="Form" class="btn btn-secondary my-2 my-sm-0" type="submit">Search</button>
 </nav>
-<a onclick="return confirm('Are you sure?')" href="/admin/allotment" class="btn btn-success btn-lg btn-block text-white">Start Allotment</a>
+<div class="text-center">
+    <a onclick="return confirm('Are you sure?')" href="/admin/allotment" class="btn btn-success col-md-4 mt-3 text-white">Start Allotment</a>
+</div>

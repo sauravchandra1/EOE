@@ -35,10 +35,21 @@ router.post('/student', ensureAuthenticated, (req, res) => {
         User.findOne({student_id: student_id})
             .then(user => {
                 if (user) {
-                    res.render('admin_student', {
-                        name,
-                        user
-                    });
+                    if (user.filled) {
+                        Choice.findOne({student_id: student_id})
+                            .then(choice => {
+                                res.render('admin_student', {
+                                    name,
+                                    user,
+                                   choice
+                                });
+                            });
+                    } else {
+                        res.render('admin_student', {
+                            name,
+                            user
+                        });
+                    }
                 } else {
                     console.log('Please enter valid Student ID');
                 }
