@@ -1,24 +1,24 @@
 <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
-    <p class="navbar-brand text-dark">Welcome
-    <h2 class="text-white"><%= name %></h2></p>
+    <a class="navbar-brand text-dark" href="/dashboard"><h5 class="text-white">Hello, <br> <strong><%= name %></strong></h5></a>
     <div class="container-fluid col-md-6">
         <div class="card text-white bg-danger mb-3" style="max-width: 20rem;">
-            <div class="card-header"><strong>Roll Number</strong></div>
             <div class="card-body">
-                <h4 class="card-title text-center"><%= student_id %></h4>
+                <h4 class="card-title text-center">Roll Number: <strong><%= student_id %></strong></h4>
             </div>
         </div>
         <div class="card text-white bg-success mb-3" style="max-width: 20rem;">
-            <div class="card-header"><strong>CGPI</strong></div>
             <div class="card-body">
-                <h4 class="card-title text-center"><%= cgpi %></h4>
+                <h4 class="card-title text-center">CGPI: <strong><%= cgpi %></strong></h4>
             </div>
         </div>
-        <div class="card text-white mb-3" style="max-width: 20rem;">
-            <a href="/users/logout" class="btn btn-info btn-lg btn-block">Logout</a>
-        </div>
+        <a href="/users/logout" class="btn btn-info"><strong>Logout</strong></a>
     </div>
 </nav>
-<div class="card text-white bg-info mb-3 text-center container-fluid">
+<div class="col-md-4 card text-white bg-info mb-3 text-center container-fluid mt-5" style="position:fixed;
+    top: 40%;
+    left: 50%;
+    width:30em;
+    margin-top: -9em;
+    margin-left: -15em">
     <div class="card-header">You have got <strong><%= alloted.toUpperCase() %></strong></div>
 </div>

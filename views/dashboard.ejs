@@ -1,22 +1,25 @@
 <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
-    <a class="navbar-brand text-dark" href="/dashboard"><h2 class="text-white">Hello, <br> <%= name %></h2></a>
+    <a class="navbar-brand text-dark" href="/dashboard"><h5 class="text-white">Hello, <br> <strong><%= name %></strong></h5></a>
     <div class="container-fluid col-md-6">
         <div class="card text-white bg-danger mb-3" style="max-width: 20rem;">
             <div class="card-body">
-                <h4 class="card-title text-center">Roll Number: <%= student_id %></h4>
+                <h4 class="card-title text-center">Roll Number: <strong><%= student_id %></strong></h4>
             </div>
         </div>
         <div class="card text-white bg-success mb-3" style="max-width: 20rem;">
             <div class="card-body">
-                <h4 class="card-title text-center">CGPI: <%= cgpi %></h4>
+                <h4 class="card-title text-center">CGPI: <strong><%= cgpi %></strong></h4>
             </div>
         </div>
-        <a href="/users/logout" class="btn btn-info">Logout</a>
+        <a href="/users/logout" class="btn btn-info"><strong>Logout</strong></a>
     </div>
 </nav>
 <% if (filled) { %>
-    <div class=" card text-white bg-info mb-3 text-center container-fluid">
+    <div class="mt-5 card text-white bg-info mb-3 text-center container-fluid">
         <div class="card-header">You have filled the choices</div>
+    </div>
+    <div class="mt-5 card text-white bg-success mb-3 col-md-4 text-center container-fluid">
+        <div class="card-header"><strong>Your choices are: </strong></div>
     </div>
     <div class="table-responsive">
         <table class="table table-hover">
@@ -80,7 +83,9 @@
                 </tbody>
             </table>
         </div>
-        <button class="btn btn-warning btn-block" type="submit" form="Form">Submit</button>
+        <div class="text-center">
+            <button class="btn btn-success col-md-4" type="submit" form="Form"><i class="fas fa-sign-in-alt"></i> <strong>Submit</strong></button>
+        </div>
     </div>
     <script>
         function checkValid(len) {
