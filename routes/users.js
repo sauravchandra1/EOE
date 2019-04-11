@@ -49,7 +49,10 @@ router.get('/logout', (req, res) => {
 //Submit
 router.post('/submit', (req, res) => {
     async function saveChoice(user) {
-        var subjects = await Subject.find({branch: 'cse'}).exec();
+        var student_id = user.student_id;
+        var cgpi = user.cgpi;
+        var branch = user.branch;
+        var subjects = await Subject.find({branch: {$nin: branch}}).exec();
         if (subjects.length === 0) {
             console.log('Subjects not found');
         } else {
@@ -62,8 +65,6 @@ router.post('/submit', (req, res) => {
                 subject_name.push(sub);
                 choices.push(formData[sub]);
             }
-            var student_id = user.student_id;
-            var cgpi = user.cgpi;
             User.findOneAndUpdate({student_id: student_id}, {$set: {filled: true}}, {new: true}, (err, doc) => {
                 if (err) {
                     console.log("Something wrong when updating data!");

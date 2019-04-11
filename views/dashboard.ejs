@@ -34,7 +34,7 @@
             </thead>
             <tbody>
             <tr class="table-info text-center">
-                <th scope="row"><%= subjects[0].branch.toUpperCase() %></th>
+                <th scope="row"><%= branch.toUpperCase() %></th>
                 <% for (var j = 1; j <= choice.subject_name.length; j++) { %>
                     <td scope="col" width="<%= colWidth %>%">
                         <% var index = parseInt(choice.choices[j - 1]); %>

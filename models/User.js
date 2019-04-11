@@ -6,7 +6,7 @@ var UserSchema = new mongoose.Schema({
         required: true
     },
     student_id: {
-        type: Number,
+        type: String,
         required: true
     },
     password: {
