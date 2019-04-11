@@ -8,6 +8,10 @@ var SubjectSchema = new mongoose.Schema({
     branch: {
         type: String,
         required: true
+    },
+    subject_code: {
+        type: String,
+        required: true
     }
 });
 

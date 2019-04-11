@@ -6,6 +6,7 @@ var {ensureAuthenticated} = require('../config/auth');
 //Mongoose
 var Choice = require('../models/Choice');
 var User = require('../models/User');
+var Subject = require('../models/Subject');
 
 //Admin login
 router.get('/admin_login', (req, res) => res.render('admin_login'));
@@ -41,7 +42,7 @@ router.post('/student', ensureAuthenticated, (req, res) => {
                                 res.render('admin_student', {
                                     name,
                                     user,
-                                   choice
+                                    choice
                                 });
                             });
                     } else {
@@ -52,6 +53,12 @@ router.post('/student', ensureAuthenticated, (req, res) => {
                     }
                 } else {
                     console.log('Please enter valid Student ID');
+                    let errors = [];
+                    errors.push({msg: 'Please enter valid Student ID'});
+                    res.render('admin_dashboard', {
+                        errors,
+                        name
+                    });
                 }
             });
     } else {
@@ -139,6 +146,129 @@ router.post('/choice_unlock', ensureAuthenticated, (req, res) => {
                 });
             });
 
+    } else {
+        req.logout();
+        res.redirect('/');
+    }
+});
+
+//Sujects
+router.get('/subject', ensureAuthenticated, (req, res) => {
+    var Admin = req.session.passport.user;
+    if (Admin.type === 1) {
+        Subject.find()
+            .then(subject => {
+                var name = req.session.passport.user.name;
+                res.render('admin_subject', {
+                    subject,
+                    name
+                });
+            });
+    } else {
+        req.logout();
+        res.redirect('/');
+    }
+});
+
+router.post('/add_subject', ensureAuthenticated, (req, res) => {
+    var Admin = req.session.passport.user;
+    if (Admin.type === 1) {
+        var {branch, subject_name, subject_code} = req.body;
+        if (branch === '' || subject_name === '' || subject_code === '') {
+            Subject.find()
+                .then(subject => {
+                    var name = req.session.passport.user.name;
+                    let errors = [];
+                    errors.push({msg: 'Please fill all the fields'})
+                    res.render('admin_subject', {
+                        errors,
+                        subject,
+                        name
+                    });
+                });
+        } else if (branch !== 'cse' && branch !== 'ece' && branch !== 'ce'
+            && branch !== 'che' && branch !== 'me' && branch !== 'ee') {
+            Subject.find()
+                .then(subject => {
+                    var name = req.session.passport.user.name;
+                    let errors = [];
+                    errors.push({msg: "Please enter branch name in correct format"});
+                    res.render('admin_subject', {
+                        errors,
+                        subject,
+                        name
+                    });
+                });
+        } else {
+            Subject.findOne({subject_code: subject_code})
+                .then(subject => {
+                    if (subject) {
+                        console.log('Subject code should be different');
+                        let errors = [];
+                        errors.push({msg: 'Subject code should be different'});
+                        Subject.find()
+                            .then(subject => {
+                                var name = req.session.passport.user.name;
+                                res.render('admin_subject', {
+                                    errors,
+                                    subject,
+                                    name
+                                });
+                            })
+                    } else {
+                        var newSubject = new Subject({
+                            branch,
+                            subject_name,
+                            subject_code
+                        });
+                        newSubject.save()
+                            .then(subject => {
+                                let successes = [];
+                                successes.push({msg: 'Subject added successfully'});
+                                console.log('Subject added successfully');
+                                Subject.find()
+                                    .then(subject => {
+                                        var name = req.session.passport.user.name;
+                                        res.render('admin_subject', {
+                                            successes,
+                                            subject,
+                                            name
+                                        });
+                                    })
+                            })
+                            .catch(err => console.log(err));
+                    }
+                })
+        }
+    } else {
+        req.logout();
+        req.redirect('/');
+    }
+});
+
+//Remove Suject
+router.post('/remove_subject', ensureAuthenticated, (req, res) => {
+    var Admin = req.session.passport.user;
+    if (Admin.type === 1) {
+        var subject_code = req.body['subject_code'];
+        Subject.findOneAndRemove({subject_code: subject_code}, function (err) {
+            if (err) {
+                console.log(err);
+            } else {
+                console.log('Subject deleted successfully');
+                let successes = [];
+                successes.push({msg: 'Subject deleted successfully'});
+                Subject.find()
+                    .then(subject => {
+                        var name = req.session.passport.user.name;
+                        res.render('admin_subject', {
+                            successes,
+                            subject,
+                            name
+                        });
+                    });
+            }
+        });
     } else {
         req.logout();
         res.redirect('/');
