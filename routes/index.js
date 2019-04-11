@@ -16,11 +16,11 @@ router.get('/dashboard', ensureAuthenticated, (req, res) => {
     } else {
         if (Userr.alloted === undefined) {
             async function showDashboard () {
-                var subjects = await Subject.find({ branch: 'cse' }).exec();
+                var subjects = await Subject.find().exec();
                 if (subjects.length === 0) {
                     console.log('Subjects not found');
                 } else {
-                    var { name, student_id, cgpi, filled } = req.session.passport.user;
+                    var { name, student_id, cgpi, filled, branch } = req.session.passport.user;
                     if (filled) {
                         Choice.findOne({ student_id: student_id })
                             .then(choice => {

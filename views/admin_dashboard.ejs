@@ -17,11 +17,16 @@
     </div>
 </nav>
 <% include ./partials/messages %>
-<div class="text-center">
-    <a onclick="return confirm('Are you sure?')" href="/admin/allotment" class="btn btn-success col-md-4 mt-3 text-white">Start Allotment</a>
+<div class="container">
+    <div class="row">
+        <div class="text-center col">
+            <a onclick="return confirm('Are you sure?')" href="/admin/allotment" class="btn btn-success col-md-4 mt-3 text-white">Start Allotment</a>
+        </div>
+        <div class="text-center col">
+            <a href="/admin/subject" class="btn btn-info col-md-4 mt-3 text-white">Manage Subjects</a>
+        </div>
+    </div>
 </div>
-<div class="text-center">
-    <a href="/admin/subject" class="btn btn-info col-md-4 mt-3 text-white">Manage Subjects</a>
-</div>
+
 
 

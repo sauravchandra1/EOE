@@ -55,7 +55,8 @@
                 <tr>
                     <th scope="col" width="13%" class="text-center">Subject Name</th>
                     <th scope="col" width="7%" class="text-center">Branch</th>
-                    <% colWidth = 80 / subjects.length %>
+                    <th scope="col" width="7%" class="text-center">Subject Code</th>
+                    <% colWidth = 73 / subjects.length %>
                     <% for (var i = 1; i <= subjects.length; i++) { %>
                         <th scope="col" width="<%= colWidth %>%" class="text-center">Choice <%= i %></th>
                     <% } %>
@@ -66,6 +67,7 @@
                     <tr class="table-info text-center">
                         <th scope="row"><%= subjects[i - 1].subject_name.toUpperCase() %></th>
                         <td><%= subjects[i - 1].branch.toUpperCase() %></td>
+                        <td><%= subjects[i - 1].subject_code.toUpperCase() %></td>
                         <% for (var j = 1; j <= subjects.length; j++) { %>
                             <td scope="col" width="<%= colWidth %>%">
                                 <label class="radio-inline">
