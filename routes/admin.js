@@ -34,7 +34,7 @@ router.post('/student', ensureAuthenticated, (req, res) => {
     if (Admin.type === 1) {
         var name = Admin.name;
         var student_id = req.body['student_id'];
-        User.findOne({student_id: 16555})
+        User.findOne({student_id: student_id})
             .then(user => {
                 if (user) {
                     if (user.filled) {
