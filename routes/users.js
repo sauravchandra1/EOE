@@ -24,7 +24,7 @@ router.post('/student_login', (req, res, next) => {
 //Student Logout Handle
 router.get('/logout', (req, res) => {
     req.logout();
-    req.flash('success_msg', 'You are logged out successfully');
+    req.flash('success_msg', 'You Are Logged Out Successfully');
     res.redirect('/users/student_login');
 });
 
@@ -54,7 +54,7 @@ router.post('/submit', (req, res) => {
         var branch = user.branch;
         var subjects = await Subject.find({branch: {$nin: branch}}).exec();
         if (subjects.length === 0) {
-            console.log('Subjects not found');
+            console.log('Subjects Not Found');
         } else {
             var subject_name = [];
             var choices = [];
@@ -67,9 +67,9 @@ router.post('/submit', (req, res) => {
             }
             User.findOneAndUpdate({student_id: student_id}, {$set: {filled: true}}, {new: true}, (err, doc) => {
                 if (err) {
-                    console.log("Something wrong when updating data!");
+                    console.log("Something Wrong While Updating Data!");
                 }
-                console.log('filled set to true');
+                console.log('Filled Set To True');
                 console.log(doc);
             });
             var newChoice = new Choice({
@@ -80,7 +80,7 @@ router.post('/submit', (req, res) => {
             });
             newChoice.save()
                 .then(choice => {
-                    console.log('Choices filled successfully');
+                    console.log('Choices Filled Successfully');
                     console.log(choice);
                 })
                 .catch(err => console.log(err));
@@ -89,7 +89,7 @@ router.post('/submit', (req, res) => {
 
     saveChoice(req.session.passport.user);
     req.logout();
-    req.flash('success_msg', 'You have filled the choices successfully');
+    req.flash('success_msg', 'You Have Filled The Choices Successfully');
     res.redirect('/users/student_login');
 });
 

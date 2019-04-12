@@ -19,7 +19,7 @@ router.get('/dashboard', ensureAuthenticated, (req, res) => {
                 var { name, student_id, cgpi, filled, branch } = req.session.passport.user;
                 var subjects = await Subject.find({branch: {$nin: branch}}).exec();
                 if (subjects.length === 0) {
-                    console.log('Subjects not found');
+                    console.log('Subjects Not Found');
                 } else {
                     if (filled) {
                         Choice.findOne({ student_id: student_id })
@@ -35,7 +35,7 @@ router.get('/dashboard', ensureAuthenticated, (req, res) => {
                                         choice
                                     });
                                 } else {
-                                    console.log('You have not filled the choices')
+                                    console.log('You Have Not Filled The Choices')
                                 }
                             });
                     } else {

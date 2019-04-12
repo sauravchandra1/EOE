@@ -24,7 +24,7 @@ router.post('/admin_login', (req, res, next) => {
 //Admin Logout Handle
 router.get('/admin_logout', (req, res) => {
     req.logout();
-    req.flash('success_msg', 'You are logged out');
+    req.flash('success_msg', 'You Are Logged Out');
     res.redirect('/admin/admin_login');
 });
 
@@ -53,9 +53,9 @@ router.post('/student', ensureAuthenticated, (req, res) => {
                         });
                     }
                 } else {
-                    console.log('Please enter valid Student ID');
+                    console.log('Please Enter Valid Student ID');
                     let errors = [];
-                    errors.push({msg: 'Please enter valid Student ID'});
+                    errors.push({msg: 'Please Enter Valid Student ID'});
                     res.render('admin_dashboard', {
                         errors,
                         name
@@ -74,55 +74,99 @@ router.get('/allotment', ensureAuthenticated, (req, res) => {
     var Admins = req.session.passport.user;
     var total_seats;
     if (Admins.type === 1) {
-        Seat.find()
-            .then(seat => {
-                total_seats = seat[0]['total_seats'];
-                Choice.find()
-                    .then(choice => {
-                        if (choice.length !== 0) {
-                            var Obj = choice;
-
-                            function compare(a, b) {
-                                if (a.cgpi >= b.cgpi) {
-                                    return -1;
-                                } else {
-                                    return 1;
-                                }
-                            }
-
-                            Obj.sort(compare);
-                            var len = Obj[0].subject_name.length;
+        function filledAllocated() {
+            Seat.find()
+                .then(seat => {
+                    total_seats = seat[0]['total_seats'];
+                    Subject.find()
+                        .then(subject => {
                             var seats = total_seats;
                             var seatObj = {};
-                            Obj[0].subject_name.forEach((key, ind) => seatObj[key] = seats);
-                            for (var i = 0; i < Obj.length; i++) {
-                                var result = {};
-                                Obj[i].choices.forEach((key, ind) => result[key] = Obj[i].subject_name[ind]);
-                                var key, val, currentBranch;
-                                for (var j = 1; j <= len; j++) {
-                                    currentBranch = result[j];
-                                    if (seatObj[currentBranch] >= 1) {
-                                        User.findOneAndUpdate({student_id: Obj[i].student_id}, {$set: {alloted: currentBranch}}, {new: true}, (err, doc) => {
-                                            if (err) {
-                                                console.log("Something wrong when updating data!");
-                                            }
-                                            console.log(doc);
-                                        });
-                                        seatObj[currentBranch]--;
-                                        break;
-                                    }
-                                }
+                            for (var j = 0; j < subject.length; j++) {
+                                seatObj[subject[j].subject_name] = seats;
                             }
-                            req.logout();
-                            req.flash('success_msg', 'Allotment done successfully');
-                            res.redirect('/admin/admin_login');
-                        } else {
-                            req.logout();
-                            req.flash('error_msg', 'Not a single student filled the choices');
-                            res.redirect('/admin/admin_login');
-                        }
-                    });
-            });
+                            Choice.find()
+                                .then(choice => {
+                                    if (choice.length !== 0) {
+                                        var Obj = choice;
+
+                                        function compare(a, b) {
+                                            if (a.cgpi >= b.cgpi) {
+                                                return -1;
+                                            } else {
+                                                return 1;
+                                            }
+                                        }
+
+                                        Obj.sort(compare);
+                                        var lenObj = Obj[0].subject_name.length;
+                                        for (var i = 0; i < Obj.length; i++) {
+                                            var result = {};
+                                            Obj[i].choices.forEach((key, ind) => result[key] = Obj[i].subject_name[ind]);
+                                            var key, val, currentSubject;
+                                            for (var j = 1; j <= lenObj; j++) {
+                                                currentSubject = result[j];
+                                                if (seatObj[currentSubject] >= 1) {
+                                                    User.findOneAndUpdate({student_id: Obj[i].student_id}, {$set: {alloted: currentSubject}}, {new: true}, (err, doc) => {
+                                                        if (err) {
+                                                            console.log("Something Wrong While Updating Data");
+                                                        }
+                                                        console.log(doc);
+                                                    });
+                                                    seatObj[currentSubject]--;
+                                                    break;
+                                                }
+                                            }
+                                        }
+                                    }
+                                });
+                        });
+                });
+        }
+
+        function notFilledAllocated() {
+            Seat.find()
+                .then(seat => {
+                    var total_seats = seat[0]['total_seats'];
+                    Subject.find()
+                        .then(subject => {
+                            var seats = total_seats;
+                            var seatObj = {};
+                            for (var j = 0; j < subject.length; j++) {
+                                seatObj[subject[j].subject_name] = seats;
+                            }
+                            User.find({filled: false})
+                                .then(user => {
+                                    var Obj = user;
+                                    var lenSub = subject.length;
+                                    var currentSubject, currentBranch;
+                                    for (var i = 0; i < Obj.length; i++) {
+                                        for (var j = 0; j < lenSub; j++) {
+                                            currentSubject = subject[j].subject_name;
+                                            currentBranch = subject[j].branch;
+                                            if (seatObj[currentSubject] >= 1 && currentBranch !== Obj[i].branch) {
+                                                User.findOneAndUpdate({student_id: Obj[i].student_id}, {$set: {alloted: currentSubject}}, {new: true}, (err, doc) => {
+                                                    if (err) {
+                                                        console.log("Something Wrong While Updating Data");
+                                                    }
+                                                    doc.filled = true;
+                                                    doc.save();
+                                                    console.log(doc);
+                                                });
+                                                seatObj[currentSubject]--;
+                                                break;
+                                            }
+                                        }
+                                    }
+                                });
+                        });
+                });
+        }
+
+        notFilledAllocated();
+        req.logout();
+        req.flash('success_msg', 'Allotment Done Successfully');
+        res.redirect('/admin/admin_login');
     } else {
         req.logout();
         res.redirect('/');
@@ -142,14 +186,14 @@ router.post('/choice_unlock', ensureAuthenticated, (req, res) => {
                     user.save();
                     Choice.deleteOne({student_id: user.student_id}, function (err) {
                         if (!err) {
-                            console.log('Choice removed sucessfully');
+                            console.log('Choice Removed Sucessfully');
                         } else {
                             console.log(err);
                         }
                     });
                     console.log('Choice Unlocked Sucessfully');
                 } else {
-                    console.log('Student not found');
+                    console.log('Student Not Found');
                 }
                 var name = req.session.passport.user.name;
                 res.render('admin_student', {
@@ -200,7 +244,7 @@ router.post('/add_subject', ensureAuthenticated, (req, res) => {
                         .then(subject => {
                             var name = req.session.passport.user.name;
                             let errors = [];
-                            errors.push({msg: 'Please fill all the fields'})
+                            errors.push({msg: 'Please Fill All The Fields'})
                             res.render('admin_subject', {
                                 total_seats,
                                 errors,
@@ -214,7 +258,7 @@ router.post('/add_subject', ensureAuthenticated, (req, res) => {
                         .then(subject => {
                             var name = req.session.passport.user.name;
                             let errors = [];
-                            errors.push({msg: "Please enter branch name in correct format"});
+                            errors.push({msg: "Please Enter Branch Name In Correct Format"});
                             res.render('admin_subject', {
                                 total_seats,
                                 errors,
@@ -226,9 +270,9 @@ router.post('/add_subject', ensureAuthenticated, (req, res) => {
                     Subject.findOne({subject_code: subject_code})
                         .then(subject => {
                             if (subject) {
-                                console.log('Subject code should be different');
+                                console.log('Subject Code Should Be Different');
                                 let errors = [];
-                                errors.push({msg: 'Subject code should be different'});
+                                errors.push({msg: 'Subject Code Should Be Different'});
                                 Subject.find()
                                     .then(subject => {
                                         var name = req.session.passport.user.name;
@@ -248,8 +292,8 @@ router.post('/add_subject', ensureAuthenticated, (req, res) => {
                                 newSubject.save()
                                     .then(subject => {
                                         let successes = [];
-                                        successes.push({msg: 'Subject added successfully'});
-                                        console.log('Subject added successfully');
+                                        successes.push({msg: 'Subject Added Successfully'});
+                                        console.log('Subject Added Successfully');
                                         Subject.find()
                                             .then(subject => {
                                                 var name = req.session.passport.user.name;
@@ -284,9 +328,9 @@ router.post('/remove_subject', ensureAuthenticated, (req, res) => {
                     if (err) {
                         console.log(err);
                     } else {
-                        console.log('Subject deleted successfully');
+                        console.log('Subject Deleted Successfully');
                         let successes = [];
-                        successes.push({msg: 'Subject deleted successfully'});
+                        successes.push({msg: 'Subject Deleted Successfully'});
                         Subject.find()
                             .then(subject => {
                                 var name = req.session.passport.user.name;
@@ -313,7 +357,7 @@ router.post('/update_seats', ensureAuthenticated, (req, res) => {
         var total_seats = req.body['total_seats'];
         if (total_seats === '' || total_seats <= 0) {
             let errors = [];
-            errors.push({msg: 'Please enter a valid number'});
+            errors.push({msg: 'Please Enter A Valid Number'});
             Seat.find()
                 .then(seats => {
                     var total_seats = seats[0]['total_seats'];
@@ -344,6 +388,43 @@ router.post('/update_seats', ensureAuthenticated, (req, res) => {
                         })
                 });
         }
+    } else {
+        req.logout();
+        res.redirect('/');
+    }
+});
+
+//Unlock choices for all
+router.get('/unlock_all', ensureAuthenticated, (req, res) => {
+    var Admin = req.session.passport.user;
+    if (Admin.type === 1) {
+        User.find()
+            .then(user => {
+                if (user) {
+                    for (var i = 0; i < user.length; i++) {
+                        user[i].alloted = undefined;
+                        user[i].filled = false;
+                        user[i].save();
+                        Choice.deleteOne({student_id: user[i].student_id}, function (err) {
+                            if (!err) {
+                                console.log('Choice Removed Sucessfully');
+                            } else {
+                                console.log(err);
+                            }
+                        });
+                        console.log('Choice Unlocked Sucessfully');
+                    }
+                } else {
+                    console.log('Student Not Found');
+                }
+                var name = req.session.passport.user.name;
+                let successes = [];
+                successes.push({msg: 'Choices Unlocked Successfully'});
+                res.render('admin_dashboard', {
+                    successes,
+                    name
+                });
+            });
     } else {
         req.logout();
         res.redirect('/');

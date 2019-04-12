@@ -19,6 +19,11 @@
 </nav>
 <% include ./partials/messages %>
 <% if (user.filled) { %>
+    <% if (user.alloted) { %>
+        <div class="mt-5 card text-white bg-info mb-3 col-md-4 text-center container-fluid">
+            <div class="card-header">Alloted Subject Is : <strong><%= user.alloted %></strong></div>
+        </div>
+    <% } %>
     <div class="table-responsive">
         <table class="table table-hover">
             <thead>
@@ -48,7 +53,7 @@
         </table>
     </div>
     <div class="mt-5 card text-white bg-success mb-3 col-md-4 text-center container-fluid">
-        <div class="card-header"><strong>The choices are: </strong></div>
+        <div class="card-header"><strong>The Choices Are: </strong></div>
     </div>
     <div class="table-responsive">
         <table class="table table-hover">
