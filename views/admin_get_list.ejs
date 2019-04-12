@@ -41,8 +41,7 @@
                         <td><%= obj.subject_code.toUpperCase() %></td>
                         <td>
                             <form action="/admin/get_list" method="POST" id="<%= obj.subject_code %>"
-                                  class="form-inline"
-                                  onsubmit="return confirm('Are you sure?')"></form>
+                                  class="form-inline"></form>
                             <input form="<%= obj.subject_code %>" type="hidden" name="subject_name"
                                    value="<%= obj.subject_name %>" class="form-control mr-sm-2"
                             >
