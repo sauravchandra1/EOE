@@ -8,6 +8,7 @@ var Choice = require('../models/Choice');
 /* GET home page. */
 router.get('/', (req, res) => res.render('welcome'));
 
+// Student Dashboard
 router.get('/dashboard', ensureAuthenticated, (req, res) => {
     var Userr = req.session.passport.user;
     if (Userr.type === 1) {
