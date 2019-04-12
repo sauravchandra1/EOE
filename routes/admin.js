@@ -77,13 +77,13 @@ router.get('/allotment', ensureAuthenticated, (req, res) => {
     var total_seats;
     if (Admins.type === 1) {
         function filledAllocated(callback) {
+            var seatObj = {};
             Seat.find()
                 .then(seat => {
                     total_seats = seat[0]['total_seats'];
                     Subject.find()
                         .then(subject => {
                             var seats = total_seats;
-                            var seatObj = {};
                             for (var j = 0; j < subject.length; j++) {
                                 seatObj[subject[j].subject_name] = seats;
                             }
@@ -124,44 +124,35 @@ router.get('/allotment', ensureAuthenticated, (req, res) => {
                                 });
                         });
                 });
-            callback();
+            callback(seatObj);
         }
 
-        function notFilledAllocated() {
-            Seat.find()
-                .then(seat => {
-                    var total_seats = seat[0]['total_seats'];
-                    Subject.find()
-                        .then(subject => {
-                            var seats = total_seats;
-                            var seatObj = {};
-                            for (var j = 0; j < subject.length; j++) {
-                                seatObj[subject[j].subject_name] = seats;
-                            }
-                            User.find({filled: false})
-                                .then(user => {
-                                    var Obj = user;
-                                    var lenSub = subject.length;
-                                    var currentSubject, currentBranch;
-                                    for (var i = 0; i < Obj.length; i++) {
-                                        for (var j = 0; j < lenSub; j++) {
-                                            currentSubject = subject[j].subject_name;
-                                            currentBranch = subject[j].branch;
-                                            if (seatObj[currentSubject] >= 1 && currentBranch !== Obj[i].branch) {
-                                                User.findOneAndUpdate({student_id: Obj[i].student_id}, {$set: {alloted: currentSubject}}, {new: true}, (err, doc) => {
-                                                    if (err) {
-                                                        console.log("Something Wrong While Updating Data");
-                                                    }
-                                                    doc.filled = true;
-                                                    doc.save();
-                                                    console.log(doc);
-                                                });
-                                                seatObj[currentSubject]--;
-                                                break;
+        function notFilledAllocated(seatObj) {
+            Subject.find()
+                .then(subject => {
+                    User.find({filled: false})
+                        .then(user => {
+                            var Obj = user;
+                            var lenSub = subject.length;
+                            var currentSubject, currentBranch;
+                            for (var i = 0; i < Obj.length; i++) {
+                                for (var j = 0; j < lenSub; j++) {
+                                    currentSubject = subject[j].subject_name;
+                                    currentBranch = subject[j].branch;
+                                    if (seatObj[currentSubject] >= 1 && currentBranch !== Obj[i].branch) {
+                                        User.findOneAndUpdate({student_id: Obj[i].student_id}, {$set: {alloted: currentSubject}}, {new: true}, (err, doc) => {
+                                            if (err) {
+                                                console.log("Something Wrong While Updating Data");
                                             }
-                                        }
+                                            doc.filled = true;
+                                            doc.save();
+                                            console.log(doc);
+                                        });
+                                        seatObj[currentSubject]--;
+                                        break;
                                     }
-                                });
+                                }
+                            }
                         });
                 });
         }
@@ -440,7 +431,7 @@ router.get('/get_list', ensureAuthenticated, (req, res) => {
     if (Admin.type === 1) {
         User.find()
             .then(user => {
-                if (user[0].filled) {
+                if (user[0].alloted !== undefined) {
                     var name = Admin.name;
                     Subject.find()
                         .then(subject => {
