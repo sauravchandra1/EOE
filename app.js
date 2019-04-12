@@ -8,6 +8,7 @@ var mongoose = require('mongoose');
 var flash = require('connect-flash');
 var session = require('express-session');
 var passport = require('passport');
+const { Parser } = require('json2csv');
 
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');

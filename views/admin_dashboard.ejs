@@ -7,7 +7,7 @@
             <div class="col-md-4 mt-2 text-center">
                 <form action="/admin/student" method="POST" id="Form" class="form-inline"
                 ></form>
-                <input form="Form" name="student_id" class="form-control " type="text" placeholder="Enter Student ID">
+                <input form="Form" name="student_id" class="form-control" type="text" placeholder="Enter Student ID">
                 <button form="Form" class="btn btn-primary mt-1" type="submit">Search</button>
             </div>
             <div class="col-md-4 mt-2 mb-2 text-center">
@@ -26,12 +26,17 @@
                     </i>
             </div>
             <div class="col mt-5">
+                <i class="fas fa-tasks fa-4x">
+                    <a href="/admin/get_list" class="btn btn-warning mt-3 text-white">Get Lists Of Allotments</a>
+                </i>
+            </div>
+            <div class="col mt-5">
                     <i class="fas fa-unlock fa-4x">
                         <a onclick="return confirm('Are you sure?')" href="/admin/unlock_all" class="btn btn-dark mt-3 text-white">Unlock Choices For All Students</a>
                     </i>
             </div>
             <div class="col mt-5">
-                <i class="fas fa-tasks fa-4x">
+                <i class="fas fa-book fa-4x">
                     <a href="/admin/subject" class="btn btn-primary mt-3 text-white">Manage Subjects</a>
                 </i>
             </div>

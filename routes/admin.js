@@ -2,6 +2,7 @@ var express = require('express');
 var router = express.Router();
 var passport = require('passport');
 var {ensureAuthenticated} = require('../config/auth');
+const {Parser} = require('json2csv');
 
 //Mongoose
 var Choice = require('../models/Choice');
@@ -34,6 +35,7 @@ router.post('/student', ensureAuthenticated, (req, res) => {
     if (Admin.type === 1) {
         var name = Admin.name;
         var student_id = req.body['student_id'];
+        console.log(student_id);
         User.findOne({student_id: student_id})
             .then(user => {
                 if (user) {
@@ -426,6 +428,74 @@ router.get('/unlock_all', ensureAuthenticated, (req, res) => {
                     name
                 });
             });
+    } else {
+        req.logout();
+        res.redirect('/');
+    }
+});
+
+//Get list of all allotment
+router.get('/get_list', ensureAuthenticated, (req, res) => {
+    var Admin = req.session.passport.user;
+    if (Admin.type === 1) {
+        User.find()
+            .then(user => {
+                if (user[0].filled) {
+                    var name = Admin.name;
+                    Subject.find()
+                        .then(subject => {
+                            res.render('admin_get_list', {
+                                name,
+                                subject
+                            });
+                        });
+                } else {
+                    let errors = [];
+                    errors.push({msg: 'Please Start Allotment First'});
+                    res.render('admin_dashboard', {
+                        errors,
+                        name: req.user.name
+                    });
+                }
+            });
+
+    } else {
+        req.logout();
+        res.redirect('/');
+    }
+});
+
+//Download list
+router.post('/get_list', ensureAuthenticated, (req, res) => {
+    var Admin = req.session.passport.user;
+    if (Admin.type === 1) {
+        var subject_name = req.body['subject_name'];
+        User.find({alloted: subject_name})
+            .then(user => {
+                if (user.length !== 0) {
+                    function compare(a, b) {
+                        if (a.cgpi >= b.cgpi) {
+                            return -1;
+                        } else {
+                            return 1;
+                        }
+                    }
+
+                    user.sort(compare);
+                    const fields = ['name', 'student_id', 'cgpi', 'branch'];
+                    const json2csvParser = new Parser({fields});
+                    const csv = json2csvParser.parse(user);
+                    res.attachment(subject_name + '.csv');
+                    res.status(200).send(csv);
+                } else {
+                    let errors = [];
+                    errors.push({msg: 'Please Start Allotment First'});
+                    res.render('admin_dashboard', {
+                        errors,
+                        name: req.user.name
+                    });
+                }
+            })
     } else {
         req.logout();
         res.redirect('/');
