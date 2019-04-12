@@ -74,7 +74,7 @@ router.get('/allotment', ensureAuthenticated, (req, res) => {
     var Admins = req.session.passport.user;
     var total_seats;
     if (Admins.type === 1) {
-        function filledAllocated() {
+        function filledAllocated(callback) {
             Seat.find()
                 .then(seat => {
                     total_seats = seat[0]['total_seats'];
@@ -122,6 +122,7 @@ router.get('/allotment', ensureAuthenticated, (req, res) => {
                                 });
                         });
                 });
+            callback();
         }
 
         function notFilledAllocated() {
@@ -163,7 +164,7 @@ router.get('/allotment', ensureAuthenticated, (req, res) => {
                 });
         }
 
-        notFilledAllocated();
+        filledAllocated(notFilledAllocated);
         req.logout();
         req.flash('success_msg', 'Allotment Done Successfully');
         res.redirect('/admin/admin_login');

@@ -7,18 +7,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="9106a310-d809-474b-abf0-d94d7b33642f" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/config/passport.js" beforeDir="false" afterPath="$PROJECT_DIR$/config/passport.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/models/Choice.js" beforeDir="false" afterPath="$PROJECT_DIR$/models/Choice.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/routes/admin.js" beforeDir="false" afterPath="$PROJECT_DIR$/routes/admin.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/routes/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/routes/index.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/routes/users.js" beforeDir="false" afterPath="$PROJECT_DIR$/routes/users.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/views/admin_dashboard.ejs" beforeDir="false" afterPath="$PROJECT_DIR$/views/admin_dashboard.ejs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/views/admin_student.ejs" beforeDir="false" afterPath="$PROJECT_DIR$/views/admin_student.ejs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/views/admin_subject.ejs" beforeDir="false" afterPath="$PROJECT_DIR$/views/admin_subject.ejs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/views/allotment.ejs" beforeDir="false" afterPath="$PROJECT_DIR$/views/allotment.ejs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/views/dashboard.ejs" beforeDir="false" afterPath="$PROJECT_DIR$/views/dashboard.ejs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/views/welcome.ejs" beforeDir="false" afterPath="$PROJECT_DIR$/views/welcome.ejs" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/.tmp/" />
     <ignored path="$PROJECT_DIR$/temp/" />
@@ -34,8 +23,8 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/routes/admin.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="209">
-              <caret line="152" column="63" selection-start-line="152" selection-start-column="63" selection-end-line="152" selection-end-column="63" />
+            <state relative-caret-position="-551">
+              <caret line="124" column="23" selection-start-line="124" selection-start-column="23" selection-end-line="124" selection-end-column="23" />
             </state>
           </provider>
         </entry>
@@ -252,12 +241,12 @@
       <workItem from="1554955087264" duration="6726000" />
       <workItem from="1554971323785" duration="10738000" />
       <workItem from="1554998849370" duration="8705000" />
-      <workItem from="1555041120633" duration="10696000" />
+      <workItem from="1555041120633" duration="11516000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="224734000" />
+    <option name="totallyTimeSpent" value="225554000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -539,8 +528,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/routes/admin.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="209">
-          <caret line="152" column="63" selection-start-line="152" selection-start-column="63" selection-end-line="152" selection-end-column="63" />
+        <state relative-caret-position="-551">
+          <caret line="124" column="23" selection-start-line="124" selection-start-column="23" selection-end-line="124" selection-end-column="23" />
         </state>
       </provider>
     </entry>
