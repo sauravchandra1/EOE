@@ -15,7 +15,7 @@ sudo apt-get install nodejs npm
 ```
 git clone https://github.com/sauravchandra1/EOE
 cd EOE
-node start server
+node ./bin/www
 ```
 
 #### Windows
