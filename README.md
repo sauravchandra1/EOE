@@ -25,3 +25,10 @@ node start server
 https://nodejs.org/en/
 
 ```
+
+- Download the repository
+```
+https://github.com/sauravchandra1/EOE/archive/master.zip
+
+```
+
