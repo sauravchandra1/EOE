@@ -8,7 +8,6 @@
 - Install Node.js
 ```
 sudo apt-get install nodejs npm
-
 ```
 
 - Clone the repository
@@ -17,18 +16,17 @@ git clone https://github.com/sauravchandra1/EOE
 cd EOE
 node ./bin/www
 ```
+- Open http://localhost:3000/ in your browser
 
 #### Windows
 
 - Install Node.js from
 ```
 https://nodejs.org/en/
-
 ```
 
 - Download the repository
 ```
 https://github.com/sauravchandra1/EOE/archive/master.zip
-
 ```
 
