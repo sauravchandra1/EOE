@@ -5,7 +5,7 @@
 
 #### Linux
 
-- Install nodejs
+- Install Node.js
 ```
 sudo apt-get install nodejs npm
 
@@ -16,4 +16,12 @@ sudo apt-get install nodejs npm
 git clone https://github.com/sauravchandra1/EOE
 cd EOE
 node start server
+```
+
+#### Windows
+
+- Install Node.js from
+```
+https://nodejs.org/en/
+
 ```
