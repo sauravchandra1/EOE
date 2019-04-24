@@ -29,4 +29,6 @@ https://nodejs.org/en/
 ```
 https://github.com/sauravchandra1/EOE/archive/master.zip
 ```
+- Open command prompt
+
 
