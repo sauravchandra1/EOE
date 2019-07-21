@@ -18,17 +18,5 @@ node ./bin/www
 ```
 - Open http://localhost:3000/ in your browser
 
-#### Windows
-
-- Install Node.js from
-```
-https://nodejs.org/en/
-```
-
-- Download the repository
-```
-https://github.com/sauravchandra1/EOE/archive/master.zip
-```
-- Open command prompt
 
 
