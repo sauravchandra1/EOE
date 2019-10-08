@@ -1,5 +1,5 @@
 ##  Elect the Open Elective(EOE)
-**EOE** is `Open Elective Allotment Platform`, A Web based application used to allocate the open elective.
+**EOE** is `Open Elective Allotment Platform`, A Web based application to allocate the open elective course.
 
 ### Installation
 
